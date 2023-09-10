@@ -17,7 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/node', require('./routes/moduls.route'));
-// app.use('/api', require('./routes/editorial.route'));
+app.use('/api/node', require('./routes/process.route'));
+app.use('/api/node', require('./routes/stress.route'));
 
 // Port assignment
 const server = app.listen(PORT, () => {
