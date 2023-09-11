@@ -1,9 +1,31 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import DivInput from '../components/DivInput';
+import { GraphicPie } from '../components/GraphicPie';
 
 const Monitoring = () => {
 
     const [textSearch, setTextSearch] = useState('');
+    const [dataGraphicRam, setDataGraphicRam] = useState([]);
+    const [dataGraphicCpu, setDataGraphicCpu] = useState([]);
+
+    useEffect(() => {
+        getDataModuls();
+    }, []);
+
+    const getDataModuls = () => {
+
+        let porcentaje = Math.floor(Math.random() * 100);
+        let porcentaje2 = Math.floor(Math.random() * 100);
+        setDataGraphicRam([porcentaje,100-porcentaje]);
+        setDataGraphicCpu([porcentaje2,100-porcentaje2]);
+
+        // setInterval(() => {
+        //     let porcentaje = Math.floor(Math.random() * 100)
+        //     setDataGraphic([porcentaje,100-porcentaje]);
+        //     console.log("siuu");
+        // }, 4000);
+
+    }
 
     return (
         <div className='container-fluid'>
@@ -16,6 +38,15 @@ const Monitoring = () => {
                     </select>
                 </div>
             </div>
+
+            <div className="row mt-4">
+                    <div className="col-3 offset-3">
+                        <GraphicPie datagraph = {dataGraphicRam} nameGraph = "RAM" />
+                    </div>
+                    <div className="col-3">
+                        <GraphicPie datagraph = {dataGraphicCpu} nameGraph = "CPU" />
+                    </div>
+            </div>  
 
             <div className='row mt-5'>
                 <div className='col-md-4 offset-md-4'>
