@@ -1,4 +1,5 @@
 const axios = require('axios');
+const performanceModel = require('../models/performance.model');
 const { response } = require('../helpers/response.helper');
 
 
@@ -8,11 +9,27 @@ const read_moduls = async (req, res) => {
         const { url_golang } = req.body;
         
         const responseAxios = await axios.get(url_golang);
+        const dataReturn = responseAxios.data;
 
-        response(res, 200, 'Datos de modulos obtenidos con exito', responseAxios.data);
+        const params_uso_cpu_ram = {
+            "uso_cpu": dataReturn.Porcentaje_uso_cpu,
+            "uso_ram": dataReturn.Ram_data.Porcentaje_uso
+        };
+
+        performanceModel.insertPerformance(params_uso_cpu_ram, (errg, results) => {
+            if (errg) return response(res, 400, 'Error al guardar datos de uso, cpu y ram', [errg]);
+
+            performanceModel.readPerformance( (err, results) => {
+                if (err) return response(res, 400, 'Error al obtener datos de uso, cpy y ram', [err]);
+
+                dataReturn.Rendimiento = results;
+    
+                response(res, 200, 'Libro guardado con éxito.', dataReturn);
+            });
+        });
 
     } catch (error) {
-        return response(res, 400, 'Error al obtener modulos.', [error]);
+        return response(res, 400, 'Error al obtener datos de modulos.', [error]);
     }
 };
 
