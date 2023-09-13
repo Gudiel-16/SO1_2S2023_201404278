@@ -18,4 +18,4 @@ export const confirmation = async(pid, url, redir) => {
     });
 }
 
-export default show_alertl;
+export default show_alert;

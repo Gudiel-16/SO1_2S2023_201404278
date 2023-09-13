@@ -1,30 +1,50 @@
 import React, {useState, useEffect} from 'react'
 import DivInput from '../components/DivInput';
 import { GraphicPie } from '../components/GraphicPie';
+import { getDataMonitoring } from '../services/monotoring.service';
 
 const Monitoring = () => {
 
+    const [ipGoAcutal, setIpGoAcutal] = useState(import.meta.env.VITE_IP_GO1);
     const [textSearch, setTextSearch] = useState('');
     const [dataGraphicRam, setDataGraphicRam] = useState([]);
     const [dataGraphicCpu, setDataGraphicCpu] = useState([]);
 
-    useEffect(() => {
-        getDataModuls();
-    }, []);
+    useEffect( () => {
+        // getDataModuls();
+        const myInterval = setInterval( async () => {
 
-    const getDataModuls = () => {
+            const res = await getDataMonitoring({ "ipGoAcutal": ipGoAcutal, "ipNode": import.meta.env.VITE_IP_GO1});
+            let porc_cpu  = parseInt(res.data.data.Porcentaje_uso_cpu);
+            let porc_ram = parseInt(res.data.data.Ram_data.Porcentaje_uso);
+            setDataGraphicRam([porc_ram, 100-porc_ram]);
+            setDataGraphicCpu([porc_cpu,100-porc_cpu]);
+
+        }, 5000);
+
+        return () => clearInterval(myInterval);
+        
+    }, [ipGoAcutal]);
+
+    const getDataModuls = async () => {
 
         let porcentaje = Math.floor(Math.random() * 100);
         let porcentaje2 = Math.floor(Math.random() * 100);
         setDataGraphicRam([porcentaje,100-porcentaje]);
         setDataGraphicCpu([porcentaje2,100-porcentaje2]);
 
-        // setInterval(() => {
-        //     let porcentaje = Math.floor(Math.random() * 100)
-        //     setDataGraphic([porcentaje,100-porcentaje]);
-        //     console.log("siuu");
-        // }, 4000);
+    }
 
+    const updateValueAcutal = (e) => {
+        if(e.target.value == 1){
+            setIpGoAcutal(import.meta.env.VITE_IP_GO1);
+        }else if (e.target.value == 2){
+            setIpGoAcutal(import.meta.env.VITE_IP_GO2);
+        }
+    }
+
+    const killProcess = () => {
+        console.log("kill");
     }
 
     return (
@@ -32,9 +52,9 @@ const Monitoring = () => {
 
             <div className="row mt-5">
                 <div className="col-md-4 offset-md-4">
-                    <select className="form-select" aria-label="Default select example">
-                        <option value="1">xxx.xxx.xx.1</option>
-                        <option value="2">xxx.xxx.xx.2</option>
+                    <select className="form-select" aria-label="Default select example" onChange={updateValueAcutal}>
+                        <option value="1">{import.meta.env.VITE_IP_GO1}</option>
+                        <option value="2">{import.meta.env.VITE_IP_GO2}</option>
                     </select>
                 </div>
             </div>
@@ -59,7 +79,7 @@ const Monitoring = () => {
                             <i className='fa-solid fa-magnifying-glass p-1'></i>
                             Buscar
                         </button>
-                        <button className='btn btn-danger'>
+                        <button className='btn btn-danger' onClick={killProcess}>
                             <i className='fa-solid fa-triangle-exclamation p-1'></i>
                             Kill
                         </button>
