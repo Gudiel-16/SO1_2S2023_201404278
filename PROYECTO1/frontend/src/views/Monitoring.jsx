@@ -10,22 +10,24 @@ const Monitoring = () => {
     const [dataGraphicRam, setDataGraphicRam] = useState([]);
     const [dataGraphicCpu, setDataGraphicCpu] = useState([]);
     const [dataProcess, setDataProcess] = useState([]);
+    let cantidadProcesosMostrar = 25;
 
     useEffect( () => {
-        getDataModuls();
+        getDataInit();
         const myInterval = setInterval( async () => {
 
-            const res = await getDataMonitoring({ "ipGoAcutal": ipGoAcutal, "ipNode": import.meta.env.VITE_IP_GO1});
+            const res = await getDataMonitoring({ "ipGoAcutal": ipGoAcutal, "ipNode": import.meta.env.VITE_IP_NODE});
             let porc_cpu  = parseInt(res.data.data.Porcentaje_uso_cpu);
             let porc_ram = parseInt(res.data.data.Ram_data.Porcentaje_uso);
             setDataGraphicRam([porc_ram, 100-porc_ram]);
             setDataGraphicCpu([porc_cpu,100-porc_cpu]);
 
-            if(res.data.data.Cpu_data.length >= 20){
-                setDataProcess(res.data.data.Cpu_data.slice(0,20));
+            if(res.data.data.Cpu_data.length >= cantidadProcesosMostrar){
+                setDataProcess(res.data.data.Cpu_data.slice(0,cantidadProcesosMostrar));
             }else{
                 setDataProcess(res.data.data.Cpu_data);
-            }    
+            }
+            console.log("moni");
 
         }, 5000);
 
@@ -33,12 +35,24 @@ const Monitoring = () => {
         
     }, [ipGoAcutal]);
 
-    const getDataModuls = async () => {
+    const getDataInit = async () => {
 
-        let porcentaje = Math.floor(Math.random() * 100);
-        let porcentaje2 = Math.floor(Math.random() * 100);
-        setDataGraphicRam([porcentaje,100-porcentaje]);
-        setDataGraphicCpu([porcentaje2,100-porcentaje2]);
+        const res = await getDataMonitoring({ "ipGoAcutal": ipGoAcutal, "ipNode": import.meta.env.VITE_IP_NODE});
+        let porc_cpu  = parseInt(res.data.data.Porcentaje_uso_cpu);
+        let porc_ram = parseInt(res.data.data.Ram_data.Porcentaje_uso);
+        setDataGraphicRam([porc_ram, 100-porc_ram]);
+        setDataGraphicCpu([porc_cpu,100-porc_cpu]);
+
+        if(res.data.data.Cpu_data.length >= cantidadProcesosMostrar){
+            setDataProcess(res.data.data.Cpu_data.slice(0,cantidadProcesosMostrar));
+        }else{
+            setDataProcess(res.data.data.Cpu_data);
+        }   
+
+        // let porcentaje = Math.floor(Math.random() * 100);
+        // let porcentaje2 = Math.floor(Math.random() * 100);
+        // setDataGraphicRam([porcentaje,100-porcentaje]);
+        // setDataGraphicCpu([porcentaje2,100-porcentaje2]);
 
     }
 
@@ -95,11 +109,12 @@ const Monitoring = () => {
                 </div>
 
                 <div className="accordion mt-4" id="accordionExample">
-                    { dataProcess.map( (pross, i) => (
+                    { 
+                      dataProcess.map( (pross, i) => (
                         <div className="accordion-item" key={"a"+ i}>
                             <h2 className="accordion-header" id={"head" + pross.Pid_nombre}>
                                 <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse" + pross.Pid_nombre} aria-expanded="true" aria-controls={"collapse" + pross.Pid_nombre}>
-                                    Accordion Item {pross.Pid_nombre}
+                                    PID: {pross.Pid} ---- NOMBRE: {pross.Nombre} ---- USUARIO: {pross.Usuario} ---- RAM: {pross.Porcentaje_ram} ---- ESTADO: {pross.Estado}
                                 </button>
                             </h2>
                             <div id={"collapse" + pross.Pid_nombre} className="accordion-collapse collapse" aria-labelledby={"head" + pross.Pid_nombre} data-bs-parent="#accordionExample">
@@ -134,16 +149,12 @@ const Monitoring = () => {
                                 </div>
                             </div>
                         </div>
-                        )) 
+                      )) 
                     }
                     
                 </div>
 
-                
-
             </div>
-
-
 
         </div>
 

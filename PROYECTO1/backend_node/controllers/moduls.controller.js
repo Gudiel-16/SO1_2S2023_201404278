@@ -22,7 +22,19 @@ const read_moduls = async (req, res) => {
             performanceModel.readPerformance( (err, results) => {
                 if (err) return response(res, 400, 'Error al obtener datos de uso, cpy y ram', [err]);
 
-                dataReturn.Rendimiento = results;
+                let valuesRAM = [];
+                let valuesCPU = [];
+                let valuesLabel = [];
+
+                results.forEach((res) => {
+                    valuesRAM.push(res.uso_ram);
+                    valuesCPU.push(res.uso_cpu);
+                    valuesLabel.push(res.fecha);
+                });
+
+                dataReturn.RendimientoRam = valuesRAM;
+                dataReturn.RendimientoCpu = valuesCPU;
+                dataReturn.RendimientoLabel = valuesLabel;
     
                 response(res, 200, 'Libro guardado con éxito.', dataReturn);
             });
