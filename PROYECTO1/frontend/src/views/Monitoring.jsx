@@ -9,9 +9,10 @@ const Monitoring = () => {
     const [textSearch, setTextSearch] = useState('');
     const [dataGraphicRam, setDataGraphicRam] = useState([]);
     const [dataGraphicCpu, setDataGraphicCpu] = useState([]);
+    const [dataProcess, setDataProcess] = useState([]);
 
     useEffect( () => {
-        // getDataModuls();
+        getDataModuls();
         const myInterval = setInterval( async () => {
 
             const res = await getDataMonitoring({ "ipGoAcutal": ipGoAcutal, "ipNode": import.meta.env.VITE_IP_GO1});
@@ -19,6 +20,12 @@ const Monitoring = () => {
             let porc_ram = parseInt(res.data.data.Ram_data.Porcentaje_uso);
             setDataGraphicRam([porc_ram, 100-porc_ram]);
             setDataGraphicCpu([porc_cpu,100-porc_cpu]);
+
+            if(res.data.data.Cpu_data.length >= 20){
+                setDataProcess(res.data.data.Cpu_data.slice(0,20));
+            }else{
+                setDataProcess(res.data.data.Cpu_data);
+            }    
 
         }, 5000);
 
@@ -45,6 +52,7 @@ const Monitoring = () => {
 
     const killProcess = () => {
         console.log("kill");
+        console.log(dataProcess);
     }
 
     return (
@@ -87,15 +95,17 @@ const Monitoring = () => {
                 </div>
 
                 <div className="accordion mt-4" id="accordionExample">
-                    <div className="accordion-item">
-                        <h2 className="accordion-header" id="headingOne">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Accordion Item #1
-                        </button>
-                        </h2>
-                        <div id="collapseOne" className="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                            <div className="accordion-body">
-                                <table className="table">
+                    { dataProcess.map( (pross, i) => (
+                        <div className="accordion-item" key={"a"+ i}>
+                            <h2 className="accordion-header" id={"head" + pross.Pid_nombre}>
+                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse" + pross.Pid_nombre} aria-expanded="true" aria-controls={"collapse" + pross.Pid_nombre}>
+                                    Accordion Item {pross.Pid_nombre}
+                                </button>
+                            </h2>
+                            <div id={"collapse" + pross.Pid_nombre} className="accordion-collapse collapse" aria-labelledby={"head" + pross.Pid_nombre} data-bs-parent="#accordionExample">
+                                <div className="accordion-body">
+                                    
+                                    <table className="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">PID</th>
@@ -106,25 +116,27 @@ const Monitoring = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">PID1</th>
-                                            <td>bash</td>
-                                            <td>1000</td>
-                                            <td>0</td>
-                                            <td>1290</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">PID2</th>
-                                            <td>bash</td>
-                                            <td>1000</td>
-                                            <td>0</td>
-                                            <td>1290</td>
-                                        </tr>
+                                        { 
+                                            pross.Hijos!=null &&
+                                            pross.Hijos.map( (prosschield, j) => (
+                                                <tr key={"prosc"+j}>
+                                                    <th scope="row">{prosschield.Pid}</th>
+                                                    <td>{prosschield.Nombre}</td>
+                                                    <td>{prosschield.Usuario}</td>
+                                                    <td>{prosschield.Estado}</td>
+                                                    <td>{prosschield.Porcentaje_ram}</td>
+                                                </tr>
+                                              ))                                         
+                                        }
                                     </tbody>
                                 </table>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        )) 
+                    }
+                    
                 </div>
 
                 
