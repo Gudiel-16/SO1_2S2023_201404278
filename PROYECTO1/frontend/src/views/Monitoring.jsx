@@ -11,6 +11,7 @@ const Monitoring = () => {
     const [dataGraphicCpu, setDataGraphicCpu] = useState([]);
     const [dataProcess, setDataProcess] = useState([]);
     const [dataProcessComplet, setDataProcessComplet] = useState([]);
+    const [dataTotalRam, setDataTotalRam] = useState('1');
     let cantidadProcesosMostrar = 25;
 
     useEffect( () => {
@@ -32,6 +33,7 @@ const Monitoring = () => {
         let porc_ram = parseInt(res.data.data.Ram_data.Porcentaje_uso);
         setDataGraphicRam([porc_ram, 100-porc_ram]);
         setDataGraphicCpu([porc_cpu,100-porc_cpu]);
+        setDataTotalRam(res.data.data.Ram_data.Total);
 
         // si no hay nada en el campo de busqueda
         if(textSearch == ""){
@@ -68,7 +70,7 @@ const Monitoring = () => {
         setTextSearch(e.target.value)
         const newProcess = searchProcess(e.target.value);
         setDataProcess(newProcess);
-        console.log(e.target.value);
+        // console.log(e.target.value);
     }
 
     const searchProcess = (searchTerm) => {
@@ -147,7 +149,7 @@ const Monitoring = () => {
                         <div className="accordion-item" key={"a"+ i}>
                             <h2 className="accordion-header" id={"head" + pross.Pid_nombre}>
                                 <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse" + pross.Pid_nombre} aria-expanded="true" aria-controls={"collapse" + pross.Pid_nombre}>
-                                    PID: {pross.Pid} ---- NOMBRE: {pross.Nombre} ---- USUARIO: {pross.Usuario} ---- RAM: {pross.Porcentaje_ram} ---- ESTADO: {pross.Estado}
+                                    PID: {pross.Pid} ---- NOMBRE: {pross.Nombre} ---- USUARIO: {pross.Usuario} ---- ESTADO: {pross.Estado} ---- RAM: {(pross.Porcentaje_ram != "" ? pross.Porcentaje_ram : "0" ) + " bytes"} ---- RAM: { (((pross.Porcentaje_ram / (1024*1024)) / parseInt(dataTotalRam))*100) + "%" }
                                 </button>
                             </h2>
                             <div id={"collapse" + pross.Pid_nombre} className="accordion-collapse collapse" aria-labelledby={"head" + pross.Pid_nombre} data-bs-parent="#accordionExample">
@@ -160,7 +162,8 @@ const Monitoring = () => {
                                             <th scope="col">NOMBRE</th>
                                             <th scope="col">USUARIO</th>
                                             <th scope="col">ESTADO</th>
-                                            <th scope="col">RAM</th>
+                                            <th scope="col">RAM bytes</th>
+                                            <th scope="col">RAM %</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -173,6 +176,7 @@ const Monitoring = () => {
                                                     <td>{prosschield.Usuario}</td>
                                                     <td>{prosschield.Estado}</td>
                                                     <td>{prosschield.Porcentaje_ram}</td>
+                                                    <td>{ (((prosschield.Porcentaje_ram / (1024*1024)) / parseInt(dataTotalRam))*100) + "%"  }</td>
                                                 </tr>
                                               ))                                         
                                         }

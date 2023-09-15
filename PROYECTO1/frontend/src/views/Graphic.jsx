@@ -101,7 +101,7 @@ const Graphic = () => {
     setDataGraphicRam(res.data.data.RendimientoRam);
     setDataGraphicCpu(res.data.data.RendimientoCpu);
     setDataLabels(res.data.data.RendimientoLabel);   
-    console.log("grap");
+    // console.log("grap");
   };
 
   const updateValueAcutal = (e) => {
