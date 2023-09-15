@@ -161,6 +161,11 @@ func stressController(c *fiber.Ctx) error {
 	return c.Status(200).JSON("stress")
 }
 
+func helloWorld(c *fiber.Ctx) error {
+
+	return c.Status(200).JSON("Hola mundo - GO")
+}
+
 func main() {
 	app := fiber.New()
 
@@ -170,6 +175,7 @@ func main() {
 	userGroup.Get("/moduls", modulsController)
 	userGroup.Get("/process", killProcessController)
 	userGroup.Get("/stress", stressController)
+	userGroup.Get("/", helloWorld)
 
 	err := app.Listen(":5000")
 

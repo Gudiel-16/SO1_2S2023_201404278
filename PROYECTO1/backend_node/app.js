@@ -16,6 +16,7 @@ app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
+app.use('/api/node', require('./routes/hworld.route'));
 app.use('/api/node', require('./routes/moduls.route'));
 app.use('/api/node', require('./routes/process.route'));
 app.use('/api/node', require('./routes/stress.route'));
