@@ -84,14 +84,10 @@ const Graphic = () => {
   };
 
   useEffect( () => {
-      getInit();
+      getDataModuls();
       const myInterval = setInterval( async () => {
 
-          const res = await getDataMonitoring({ "ipGoAcutal": ipGoAcutal, "ipNode": import.meta.env.VITE_IP_NODE});
-          setDataGraphicRam(res.data.data.RendimientoRam);
-          setDataGraphicCpu(res.data.data.RendimientoCpu);
-          setDataLabels(res.data.data.RendimientoLabel); 
-          console.log("grap");    
+        getDataModuls();  
 
       }, 5000);
 
@@ -99,13 +95,13 @@ const Graphic = () => {
       
   }, [ipGoAcutal]);
 
-  const getInit = async () => {
+  const getDataModuls = async () => {
 
     const res = await getDataMonitoring({ "ipGoAcutal": ipGoAcutal, "ipNode": import.meta.env.VITE_IP_NODE});
     setDataGraphicRam(res.data.data.RendimientoRam);
     setDataGraphicCpu(res.data.data.RendimientoCpu);
     setDataLabels(res.data.data.RendimientoLabel);   
-
+    console.log("grap");
   };
 
   const updateValueAcutal = (e) => {

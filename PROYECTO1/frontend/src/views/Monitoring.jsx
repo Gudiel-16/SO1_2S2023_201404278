@@ -10,32 +10,22 @@ const Monitoring = () => {
     const [dataGraphicRam, setDataGraphicRam] = useState([]);
     const [dataGraphicCpu, setDataGraphicCpu] = useState([]);
     const [dataProcess, setDataProcess] = useState([]);
+    const [dataProcessComplet, setDataProcessComplet] = useState([]);
     let cantidadProcesosMostrar = 25;
 
     useEffect( () => {
-        getDataInit();
+        getDataModuls();
         const myInterval = setInterval( async () => {
 
-            const res = await getDataMonitoring({ "ipGoAcutal": ipGoAcutal, "ipNode": import.meta.env.VITE_IP_NODE});
-            let porc_cpu  = parseInt(res.data.data.Porcentaje_uso_cpu);
-            let porc_ram = parseInt(res.data.data.Ram_data.Porcentaje_uso);
-            setDataGraphicRam([porc_ram, 100-porc_ram]);
-            setDataGraphicCpu([porc_cpu,100-porc_cpu]);
+            getDataModuls();
 
-            if(res.data.data.Cpu_data.length >= cantidadProcesosMostrar){
-                setDataProcess(res.data.data.Cpu_data.slice(0,cantidadProcesosMostrar));
-            }else{
-                setDataProcess(res.data.data.Cpu_data);
-            }
-            console.log("moni");
-
-        }, 5000);
+        }, 10000);
 
         return () => clearInterval(myInterval);
         
-    }, [ipGoAcutal]);
+    }, [ipGoAcutal,textSearch]);
 
-    const getDataInit = async () => {
+    const getDataModuls = async () => {
 
         const res = await getDataMonitoring({ "ipGoAcutal": ipGoAcutal, "ipNode": import.meta.env.VITE_IP_NODE});
         let porc_cpu  = parseInt(res.data.data.Porcentaje_uso_cpu);
@@ -43,11 +33,21 @@ const Monitoring = () => {
         setDataGraphicRam([porc_ram, 100-porc_ram]);
         setDataGraphicCpu([porc_cpu,100-porc_cpu]);
 
-        if(res.data.data.Cpu_data.length >= cantidadProcesosMostrar){
-            setDataProcess(res.data.data.Cpu_data.slice(0,cantidadProcesosMostrar));
+        // si no hay nada en el campo de busqueda
+        if(textSearch == ""){
+            // console.log("nouu",textSearch)
+            if(res.data.data.Cpu_data.length >= cantidadProcesosMostrar){
+                setDataProcess(res.data.data.Cpu_data.slice(0,cantidadProcesosMostrar));
+                setDataProcessComplet(res.data.data.Cpu_data);
+            }else{
+                setDataProcess(res.data.data.Cpu_data);
+            }   
         }else{
-            setDataProcess(res.data.data.Cpu_data);
-        }   
+            // console.log("siuu ", textSearch)
+            setDataProcessComplet(res.data.data.Cpu_data);
+            const newPross = searchProcess(textSearch);
+            setDataProcess(newPross);
+        }
 
         // let porcentaje = Math.floor(Math.random() * 100);
         // let porcentaje2 = Math.floor(Math.random() * 100);
@@ -56,12 +56,45 @@ const Monitoring = () => {
 
     }
 
-    const updateValueAcutal = (e) => {
+    const updateValueIPAcutal = (e) => {
         if(e.target.value == 1){
             setIpGoAcutal(import.meta.env.VITE_IP_GO1);
         }else if (e.target.value == 2){
             setIpGoAcutal(import.meta.env.VITE_IP_GO2);
         }
+    }
+
+    const changeSearch = (e) => {
+        setTextSearch(e.target.value)
+        const newProcess = searchProcess(e.target.value);
+        setDataProcess(newProcess);
+        console.log(e.target.value);
+    }
+
+    const searchProcess = (searchTerm) => {
+        return dataProcessComplet.filter((pross) => {
+            // si nombre proceso coincide
+            if (pross.Nombre.toLowerCase().includes(searchTerm.toLowerCase())) {
+                return true;
+            }
+
+            // si algun proceso hijo coincide
+            if(pross.Hijos != null) {
+                if(
+                    pross.Hijos.some((proshijo) => proshijo.Nombre.toLowerCase().includes(searchTerm.toLowerCase()))
+                ) {
+                    return true;
+                }
+            }
+            
+            // no hay coincidencia
+            return false;
+        });
+    }
+
+    const newSearch = () => {
+        setTextSearch("");
+        console.log("newSearch");
     }
 
     const killProcess = () => {
@@ -74,7 +107,7 @@ const Monitoring = () => {
 
             <div className="row mt-5">
                 <div className="col-md-4 offset-md-4">
-                    <select className="form-select" aria-label="Default select example" onChange={updateValueAcutal}>
+                    <select className="form-select" aria-label="Default select example" onChange={updateValueIPAcutal}>
                         <option value="1">{import.meta.env.VITE_IP_GO1}</option>
                         <option value="2">{import.meta.env.VITE_IP_GO2}</option>
                     </select>
@@ -93,13 +126,13 @@ const Monitoring = () => {
             <div className='row mt-5'>
                 <div className='col-md-4 offset-md-4'>
                     <DivInput type='text' icon='fa-pen' value={textSearch} className='form-control' placeholder='Buscar...'
-                            handleChange = { (e) => setTextSearch(e.target.value) } />
+                            handleChange = { changeSearch } />
                 </div>
                 <div className='col-md-4 offset-md-4'>
                     <div className='d-grid gap-2'>
-                        <button className='btn btn-dark'>
+                        <button className='btn btn-dark' onClick={ newSearch }>
                             <i className='fa-solid fa-magnifying-glass p-1'></i>
-                            Buscar
+                            Nueva busqueda
                         </button>
                         <button className='btn btn-danger' onClick={killProcess}>
                             <i className='fa-solid fa-triangle-exclamation p-1'></i>
