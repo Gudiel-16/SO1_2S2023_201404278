@@ -152,13 +152,36 @@ func modulsController(c *fiber.Ctx) error {
 // CONTROLADOR KILL PROCESS
 func killProcessController(c *fiber.Ctx) error {
 
-	return c.Status(200).JSON("kill process")
+	newData := models.Kill_model{}
+
+	err := c.BodyParser(&newData)
+
+	if err != nil {
+		return c.Status(400).JSON(err)
+	}
+
+	cmd := exec.Command("sh", "-c", "kill -9 "+newData.Pid)
+	output, errr := cmd.CombinedOutput()
+
+	if errr != nil {
+		return c.Status(400).JSON(errr)
+	}
+
+	return c.Status(200).JSON(output)
 }
 
 // CONTROLADOR STRESS
 func stressController(c *fiber.Ctx) error {
 
-	return c.Status(200).JSON("stress")
+	// sudo apt-get install -y stress
+	cmd := exec.Command("sh", "-c", "stress --cpu 2 --timeout 60s")
+	output, errr := cmd.CombinedOutput()
+
+	if errr != nil {
+		return c.Status(400).JSON(errr)
+	}
+
+	return c.Status(200).JSON(output)
 }
 
 func helloWorld(c *fiber.Ctx) error {
@@ -173,7 +196,7 @@ func main() {
 
 	userGroup := app.Group("/api/go")
 	userGroup.Get("/moduls", modulsController)
-	userGroup.Get("/process", killProcessController)
+	userGroup.Post("/process", killProcessController)
 	userGroup.Get("/stress", stressController)
 	userGroup.Get("/", helloWorld)
 

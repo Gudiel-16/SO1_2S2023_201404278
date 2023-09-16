@@ -4,9 +4,9 @@ const { response } = require('../helpers/response.helper');
 const kill_process = async (req, res) => {
     try {
 
-        const { url_golang } = req.body;
+        const { url_golang, pid_pross } = req.body;
         
-        const responseAxios = await axios.get(url_golang);
+        const responseAxios = await axios.post(url_golang, { pid: pid_pross });
 
         response(res, 200, 'Kill process realizado con exito', responseAxios.data);
 
