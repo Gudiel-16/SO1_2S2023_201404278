@@ -195,7 +195,7 @@ const Monitoring = () => {
                       dataProcess.map( (pross, i) => (
                         <div className="accordion-item" key={"a"+ i}>
                             <h2 className="accordion-header" id={"head" + pross.Pid_nombre}>
-                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse" + pross.Pid_nombre} aria-expanded="true" aria-controls={"collapse" + pross.Pid_nombre}>
+                                <button className="accordion-button collapsed" type="button" onClick={ () => setTextPidKill(pross.Pid) } data-bs-toggle="collapse" data-bs-target={"#collapse" + pross.Pid_nombre} aria-expanded="true" aria-controls={"collapse" + pross.Pid_nombre}>
                                     PID: {pross.Pid} ---- NOMBRE: {pross.Nombre} ---- USUARIO: {pross.Usuario} ---- ESTADO: {pross.Estado} ---- RAM: {(pross.Porcentaje_ram != "" ? pross.Porcentaje_ram : "0" ) + " bytes"} ---- RAM: { (((pross.Porcentaje_ram / (1024*1024)) / parseInt(dataTotalRam))*100) + "%" }
                                 </button>
                             </h2>
@@ -211,6 +211,7 @@ const Monitoring = () => {
                                             <th scope="col">ESTADO</th>
                                             <th scope="col">RAM bytes</th>
                                             <th scope="col">RAM %</th>
+                                            <th scope="col">COPIAR PID</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -224,6 +225,7 @@ const Monitoring = () => {
                                                     <td>{prosschield.Estado}</td>
                                                     <td>{prosschield.Porcentaje_ram}</td>
                                                     <td>{ (((prosschield.Porcentaje_ram / (1024*1024)) / parseInt(dataTotalRam))*100) + "%"  }</td>
+                                                    <td><button className='btn btn-success' onClick={() => setTextPidKill(prosschield.Pid)}><i className="fa-solid fa-copy"></i></button></td>
                                                 </tr>
                                               ))                                         
                                         }
