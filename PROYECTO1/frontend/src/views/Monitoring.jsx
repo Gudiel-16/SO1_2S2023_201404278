@@ -1,12 +1,14 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react';
+import Swal from "sweetalert2";
 import DivInput from '../components/DivInput';
 import { GraphicPie } from '../components/GraphicPie';
-import { getDataMonitoring } from '../services/monotoring.service';
+import { getDataMonitoring, killPidService, stressCpuService } from '../services/monotoring.service';
 
 const Monitoring = () => {
 
     const [ipGoAcutal, setIpGoAcutal] = useState(import.meta.env.VITE_IP_GO1);
     const [textSearch, setTextSearch] = useState('');
+    const [textPidKill, setTextPidKill] = useState('');
     const [dataGraphicRam, setDataGraphicRam] = useState([]);
     const [dataGraphicCpu, setDataGraphicCpu] = useState([]);
     const [dataProcess, setDataProcess] = useState([]);
@@ -94,14 +96,57 @@ const Monitoring = () => {
         });
     }
 
-    const newSearch = () => {
-        setTextSearch("");
-        console.log("newSearch");
+    const killProcess = () => {
+        if(textPidKill != ""){
+            const alert = Swal.mixin({buttonsStyling:true});
+            alert.fire({
+                title: 'Seguro que desea detener el proceso ' + textPidKill + ' ?',
+                icon: 'question', showCancelButton: true,
+                confirmButtonText: '<i class="fa-solid fa-check"></i> Si, detener',
+                cancelButtonText: '<i class="fa-solid fa-ban"></i> Cancelar'
+            }).then( async (result) => {
+                if(result.isConfirmed){
+                    try {
+                        const res = await killPidService({ "ipNode": import.meta.env.VITE_IP_NODE, "ipGoAcutal": ipGoAcutal, "pid_pross": textPidKill});
+                        setTextSearch('');
+                        setTextPidKill('');
+                        console.log(res.data.msg);
+                    } catch (error) {
+                        console.log(error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Se produjo un error al intentar detener el proceso!',
+                        });
+                    }                    
+                }
+            });
+        }        
     }
 
-    const killProcess = () => {
-        console.log("kill");
-        console.log(dataProcess);
+    const stressCpu = async() => {
+
+        const alert = Swal.mixin({buttonsStyling:true});
+            alert.fire({
+                title: 'Seguro que desea estresar el CPU ?',
+                icon: 'question', showCancelButton: true,
+                confirmButtonText: '<i class="fa-solid fa-check"></i> Si, estresar',
+                cancelButtonText: '<i class="fa-solid fa-ban"></i> Cancelar'
+            }).then( async (result) => {
+                if(result.isConfirmed){
+                    try {
+                        const res = await stressCpuService({ "ipNode": import.meta.env.VITE_IP_NODE, "ipGoAcutal": ipGoAcutal });
+                        console.log(res.data.msg);
+                    } catch (error) {
+                        console.log(error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Se produjo un error al estresar CPU!',
+                        });
+                    }                                  
+                }
+            });
     }
 
     return (
@@ -127,18 +172,20 @@ const Monitoring = () => {
 
             <div className='row mt-5'>
                 <div className='col-md-4 offset-md-4'>
-                    <DivInput type='text' icon='fa-pen' value={textSearch} className='form-control' placeholder='Buscar...'
+                    <DivInput type='text' icon='fa-magnifying-glass' value={textSearch} className='form-control' placeholder='Buscar Proceso...'
                             handleChange = { changeSearch } />
                 </div>
                 <div className='col-md-4 offset-md-4'>
                     <div className='d-grid gap-2'>
-                        <button className='btn btn-dark' onClick={ newSearch }>
-                            <i className='fa-solid fa-magnifying-glass p-1'></i>
-                            Nueva busqueda
-                        </button>
+                        <DivInput type='text' icon='fa-pen' value={textPidKill} className='form-control' placeholder='PID Proceso...'
+                            handleChange = { (e) => setTextPidKill(e.target.value) } />
                         <button className='btn btn-danger' onClick={killProcess}>
                             <i className='fa-solid fa-triangle-exclamation p-1'></i>
                             Kill
+                        </button>
+                        <button className='btn btn-primary' onClick={stressCpu}>
+                            <i className='fa-solid fa-fire p-1'></i>
+                            Stress
                         </button>
                     </div>
                 </div>
