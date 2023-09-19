@@ -48,6 +48,8 @@ newgrp docker
 apt-get install -y stress
 ```
 
+### Levantar contenedor a manita:
+
 * Docker build, run
 
 ```
@@ -55,7 +57,7 @@ sudo docker build -t so1gomuduls .
 sudo docker run  -it -p 5000:5000 --privileged --pid=host -d so1gomuduls
 ```
 
-* Stress dentro del contenedor
+* Stress dentro del contenedor (se modifico el Docker file, ya no es necesario este paso)
 
 ```
 docker exec -it id_contenedor /bin/sh
@@ -63,7 +65,14 @@ apt-get update
 apt-get install -y stress
 ```
 
-* Prueba de stress con python
+### Levantar contenedor con docker compose:
+
+```
+docker compose up -d
+docker compose down
+```
+
+### Prueba de kill con python
 
 ```bash
 sudo apt update
