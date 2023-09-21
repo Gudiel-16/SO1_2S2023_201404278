@@ -89,7 +89,7 @@ const Graphic = () => {
 
         getDataModuls();  
 
-      }, 5000);
+      }, 8000);
 
       return () => clearInterval(myInterval);
       

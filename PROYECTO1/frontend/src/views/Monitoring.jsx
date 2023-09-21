@@ -7,6 +7,7 @@ import { getDataMonitoring, killPidService, stressCpuService } from '../services
 const Monitoring = () => {
 
     const [ipGoAcutal, setIpGoAcutal] = useState(import.meta.env.VITE_IP_GO1);
+    const [ipGoScaling, setIpGoScaling] = useState('');
     const [textSearch, setTextSearch] = useState('');
     const [textPidKill, setTextPidKill] = useState('');
     const [dataGraphicRam, setDataGraphicRam] = useState([]);
@@ -22,35 +23,41 @@ const Monitoring = () => {
 
             getDataModuls();
 
-        }, 10000);
+        }, 8000);
 
         return () => clearInterval(myInterval);
         
-    }, [ipGoAcutal,textSearch]);
+    }, [ipGoAcutal,textSearch,ipGoScaling]);
 
     const getDataModuls = async () => {
 
-        const res = await getDataMonitoring({ "ipGoAcutal": ipGoAcutal, "ipNode": import.meta.env.VITE_IP_NODE});
-        let porc_cpu  = parseInt(res.data.data.Porcentaje_uso_cpu);
-        let porc_ram = parseInt(res.data.data.Ram_data.Porcentaje_uso);
-        setDataGraphicRam([porc_ram, 100-porc_ram]);
-        setDataGraphicCpu([porc_cpu,100-porc_cpu]);
-        setDataTotalRam(res.data.data.Ram_data.Total);
+        try {
+            let ip_actual = ipGoScaling == '' ? ipGoAcutal : ipGoScaling;
+            console.log(ip_actual); 
+            const res = await getDataMonitoring({ "ipGoAcutal": ip_actual, "ipNode": import.meta.env.VITE_IP_NODE});
+            let porc_cpu  = parseInt(res.data.data.Porcentaje_uso_cpu);
+            let porc_ram = parseInt(res.data.data.Ram_data.Porcentaje_uso);
+            setDataGraphicRam([porc_ram, 100-porc_ram]);
+            setDataGraphicCpu([porc_cpu,100-porc_cpu]);
+            setDataTotalRam(res.data.data.Ram_data.Total);
 
-        // si no hay nada en el campo de busqueda
-        if(textSearch == ""){
-            // console.log("nouu",textSearch)
-            if(res.data.data.Cpu_data.length >= cantidadProcesosMostrar){
-                setDataProcess(res.data.data.Cpu_data.slice(0,cantidadProcesosMostrar));
-                setDataProcessComplet(res.data.data.Cpu_data);
+            // si no hay nada en el campo de busqueda
+            if(textSearch == ""){
+                // console.log("nouu",textSearch)
+                if(res.data.data.Cpu_data.length >= cantidadProcesosMostrar){
+                    setDataProcess(res.data.data.Cpu_data.slice(0,cantidadProcesosMostrar));
+                    setDataProcessComplet(res.data.data.Cpu_data);
+                }else{
+                    setDataProcess(res.data.data.Cpu_data);
+                }   
             }else{
-                setDataProcess(res.data.data.Cpu_data);
-            }   
-        }else{
-            // console.log("siuu ", textSearch)
-            setDataProcessComplet(res.data.data.Cpu_data);
-            const newPross = searchProcess(textSearch);
-            setDataProcess(newPross);
+                // console.log("siuu ", textSearch)
+                setDataProcessComplet(res.data.data.Cpu_data);
+                const newPross = searchProcess(textSearch);
+                setDataProcess(newPross);
+            }
+        } catch (error) {
+            console.log(error);
         }
 
         // let porcentaje = Math.floor(Math.random() * 100);
@@ -107,7 +114,8 @@ const Monitoring = () => {
             }).then( async (result) => {
                 if(result.isConfirmed){
                     try {
-                        const res = await killPidService({ "ipNode": import.meta.env.VITE_IP_NODE, "ipGoAcutal": ipGoAcutal, "pid_pross": textPidKill});
+                        let ip_actual = ipGoScaling == '' ? ipGoAcutal : ipGoScaling;
+                        const res = await killPidService({ "ipNode": import.meta.env.VITE_IP_NODE, "ipGoAcutal": ip_actual, "pid_pross": textPidKill});
                         setTextSearch('');
                         setTextPidKill('');
                         console.log(res.data.msg);
@@ -135,7 +143,8 @@ const Monitoring = () => {
             }).then( async (result) => {
                 if(result.isConfirmed){
                     try {
-                        const res = await stressCpuService({ "ipNode": import.meta.env.VITE_IP_NODE, "ipGoAcutal": ipGoAcutal });
+                        let ip_actual = ipGoScaling == '' ? ipGoAcutal : ipGoScaling;
+                        const res = await stressCpuService({ "ipNode": import.meta.env.VITE_IP_NODE, "ipGoAcutal": ip_actual });
                         console.log(res.data.msg);
                     } catch (error) {
                         console.log(error);
@@ -158,6 +167,13 @@ const Monitoring = () => {
                         <option value="1">{import.meta.env.VITE_IP_GO1}</option>
                         <option value="2">{import.meta.env.VITE_IP_GO2}</option>
                     </select>
+                </div>
+            </div>
+
+            <div className="row mt-3">
+                <div className='col-md-4 offset-md-4'>
+                    <DivInput type='text' icon='fa-magnifying-glass' value={ipGoScaling} className='form-control' placeholder='IP Scaling...'
+                            handleChange = { (e) => setIpGoScaling(e.target.value) } />
                 </div>
             </div>
 
