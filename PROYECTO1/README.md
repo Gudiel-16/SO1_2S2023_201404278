@@ -103,3 +103,9 @@ if __name__ == '__main__':
 ```
 cat /etc/passwd | awk -F ':' '{print $1, $3}'
 ```
+
+```
+docker exec -it 387513974b4b bash
+mysql -u root -p
+comandos....
+```
