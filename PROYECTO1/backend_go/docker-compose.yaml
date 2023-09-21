@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  mybackend:
+    build:
+      dockerfile: Dockerfile
+    image: gudiel/so1-back-go-moduls:1.0.0
+    privileged: true
+    pid: "host"
+    ports:
+      - 5000:5000
+    restart: always
