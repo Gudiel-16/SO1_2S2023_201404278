@@ -8,8 +8,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: db_monitoreo
-      MYSQL_USER: root
-      MYSQL_PASSWORD: secret
     volumes:
       - ./backend_node/db_init:/docker-entrypoint-initdb.d
       - mysql-data:/var/lib/mysql
@@ -39,7 +37,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: "gudiel/so1-front-react:1.0.0"
+    image: "gudiel/so1-front-react:1.0.1"
     ports:
       - "3000:80"
     depends_on:
