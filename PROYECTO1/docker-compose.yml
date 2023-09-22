@@ -37,7 +37,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: "gudiel/so1-front-react:1.0.1"
+    image: "gudiel/so1-front-react:1.0.2"
     ports:
       - "3000:80"
     depends_on:
