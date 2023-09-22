@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import DivInput from '../components/DivInput';
 import { getDataMonitoring } from '../services/monotoring.service';
 
 import {
@@ -27,6 +28,7 @@ ChartJS.register(
 const Graphic = () => {
 
   const [ipGoAcutal, setIpGoAcutal] = useState(import.meta.env.VITE_IP_GO1);
+  const [ipGoScaling, setIpGoScaling] = useState('');
   const [dataGraphicRam, setDataGraphicRam] = useState([]);
   const [dataGraphicCpu, setDataGraphicCpu] = useState([]);
   const [dataLabels, setDataLabels] = useState([]);
@@ -93,14 +95,21 @@ const Graphic = () => {
 
       return () => clearInterval(myInterval);
       
-  }, [ipGoAcutal]);
+  }, [ipGoAcutal, ipGoScaling]);
 
   const getDataModuls = async () => {
 
-    const res = await getDataMonitoring({ "ipGoAcutal": ipGoAcutal, "ipNode": import.meta.env.VITE_IP_NODE});
-    setDataGraphicRam(res.data.data.RendimientoRam);
-    setDataGraphicCpu(res.data.data.RendimientoCpu);
-    setDataLabels(res.data.data.RendimientoLabel);   
+    try {
+      let ip_actual = ipGoScaling == '' ? ipGoAcutal : ipGoScaling;
+      console.log(ip_actual);
+      const res = await getDataMonitoring({ "ipGoAcutal": ip_actual, "ipNode": import.meta.env.VITE_IP_NODE});
+      setDataGraphicRam(res.data.data.RendimientoRam);
+      setDataGraphicCpu(res.data.data.RendimientoCpu);
+      setDataLabels(res.data.data.RendimientoLabel);
+    } catch (error) {
+      console.log(error);
+    }
+
     // console.log("grap");
   };
 
@@ -123,6 +132,13 @@ const Graphic = () => {
                 <option value="2">{import.meta.env.VITE_IP_GO2}</option>
             </select>
         </div>
+    </div>
+
+    <div className="row mt-3">
+      <div className='col-md-4 offset-md-4'>
+          <DivInput type='text' icon='fa-magnifying-glass' value={ipGoScaling} className='form-control' placeholder='IP Scaling...'
+                  handleChange = { (e) => setIpGoScaling(e.target.value) } />
+      </div>
     </div>
 
       <div className="row mt-4">

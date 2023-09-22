@@ -36,7 +36,7 @@ const read_moduls = async (req, res) => {
                 dataReturn.RendimientoCpu = valuesCPU;
                 dataReturn.RendimientoLabel = valuesLabel;
     
-                response(res, 200, 'Libro guardado con éxito.', dataReturn);
+                response(res, 200, 'Datos guardados con éxito.', dataReturn);
             });
         });
 

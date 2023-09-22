@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect } from 'react';
 import Swal from "sweetalert2";
 import DivInput from '../components/DivInput';
 import { GraphicPie } from '../components/GraphicPie';
@@ -16,13 +16,11 @@ const Monitoring = () => {
     const [dataProcessComplet, setDataProcessComplet] = useState([]);
     const [dataTotalRam, setDataTotalRam] = useState('1');
     let cantidadProcesosMostrar = 25;
-
+    
     useEffect( () => {
         getDataModuls();
         const myInterval = setInterval( async () => {
-
             getDataModuls();
-
         }, 8000);
 
         return () => clearInterval(myInterval);
