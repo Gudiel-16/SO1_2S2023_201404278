@@ -11,7 +11,7 @@ def insert_in_mysql(r):
 
     mycursor = my_db_mysql.cursor()
 
-    query = ("INSERT INTO Nota (carnet, nombre, curso, nota, semestre, year) VALUES (%s, %s, %s, %s, %s, %s)")
+    query = ("CALL InsertarNota(%s, %s, %s, %s, %s, %s)")
     values = (carnet, nombre, curso, nota, semestre, year)
 
     mycursor.execute(query, values)

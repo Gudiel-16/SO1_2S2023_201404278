@@ -63,22 +63,3 @@ Andrew,Keriann,Iolanthe,Gordy,Janeva,Harlie
     * type: **Custom List**
     * options: **2023** 
     * **random**
-
-## Python
-
-* Instalaciones globales
-
-```
-sudo apt update
-sudo apt install python3-pip
-sudo pip3 install virtualenv
-```
-
-* Crear entorno virtual, activar entorno virtual y salir del entorno virtual.
-    * Estar posicionado en la carpeta donde se trabajara el proyecto.
-
-```
-virtualenv venv
-source venv/bin/activate
-deactivate
-```
