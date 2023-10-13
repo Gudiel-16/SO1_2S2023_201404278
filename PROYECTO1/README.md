@@ -579,7 +579,8 @@ if __name__ == '__main__':
       #! /bin/bash
       cd /home/g16_pweb/SO1_2S2023_201404278/PROYECTO1/modulo_cpu/
       sudo insmod cpu.ko
-      cd /home/g16_pweb/SO1_
+      cd /home/g16_pweb/SO1_2S2023_201404278/PROYECTO1/modulo_ram/
+      sudo insmod ram.ko
       ```
   * Crear.
 * **Creamos grupo de instancias**:
