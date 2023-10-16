@@ -42,7 +42,7 @@ const courses_with_more_students_per_semester = (req, res) => {
 
 const students_with_the_best_average = (req, res) => {
     try {
-        getData.studentsWithTheBestAverage( (err, results) => {
+        getData.studentsWithTheBestAverage(req.body, (err, results) => {
             if (err) return response(res, 400, 'Error al obtener alumnos con mejor promedio.', [err]);
 
             response(res, 200, 'Alumnos con mejor promedio obtenidos con éxito.', results[0]);

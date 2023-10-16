@@ -11,6 +11,6 @@ const {
 router.route('/datosalmacenados').get(stored_data);
 router.route('/notacursoporsemestre').post(notes_course_per_semester);
 router.route('/estudiantesporsemestre').post(courses_with_more_students_per_semester);
-router.route('/mejorpromedio').get(students_with_the_best_average);
+router.route('/mejorpromedio').post(students_with_the_best_average);
 
 module.exports = router;

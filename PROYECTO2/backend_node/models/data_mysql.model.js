@@ -30,11 +30,15 @@ const coursesWithMoreStudentsPerSemester = (params, callback) => {
     return execute(query, data, callback);
 };
 
-const studentsWithTheBestAverage = (callback) => {
+const studentsWithTheBestAverage = (params, callback) => {
 
-    const query = `CALL AlumnosMejorPromedio();`;
+    const data = [
+        params.semestre
+    ];
 
-    return execute2(query, callback);
+    const query = `CALL AlumnosMejorPromedio(?);`;
+
+    return execute(query, data, callback);
 };
 
 module.exports = { storedData, notesCoursePerSemester, coursesWithMoreStudentsPerSemester, studentsWithTheBestAverage };
