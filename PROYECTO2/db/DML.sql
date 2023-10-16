@@ -90,7 +90,9 @@ DELIMITER ;
 
 /*ALUMNOS CON MEJOR PROMEDIO*/
 DELIMITER //
-CREATE PROCEDURE AlumnosMejorPromedio()
+CREATE PROCEDURE AlumnosMejorPromedio(
+    in inSemestre VARCHAR(5)
+)
 BEGIN
     SELECT A.carnet as "carnet",
            A.nombre as "nombre",
@@ -98,6 +100,7 @@ BEGIN
     FROM Alumno A
     JOIN Nota N on A.idAlumno = N.alumnoID
     JOIN Curso C on N.cursoID = C.idCurso
+    JOIN Semestre S on N.semestreID = S.idSemestre AND S.nombre = inSemestre
     GROUP BY A.carnet, A.nombre
     ORDER BY promedio DESC
     LIMIT 5;
