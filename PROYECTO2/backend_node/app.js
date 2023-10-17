@@ -9,6 +9,14 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT_SERVER || 5003;
 
+// Connecting socker.io
+const http = require("http").Server(app);
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "*"
+    }
+});
+
 // Middlewares
 app.use(morgan('dev'));
 app.use(cors({ origin: '*' }));
@@ -22,8 +30,26 @@ app.get('/', (req, res) => {
     res.status(200).send("Hello World - NODE");
 });
 
+// Socket.io
+io.on("connection", (socket) => {
+
+    console.log(`New client connected - ${socket.id}`);
+
+    const myInterval = setInterval(async () => {
+    
+        io.emit("datadinamic", elements);
+
+    }, 3000);
+
+    socket.on("disconnect", () => {
+        console.log("client disconnected - " + socket.id);
+        clearInterval(myInterval);
+    });
+
+});
+
 // Port assignment
-const server = app.listen(PORT, () => {
+const server = http.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
 });
 
