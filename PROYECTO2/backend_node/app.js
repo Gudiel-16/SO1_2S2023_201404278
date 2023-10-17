@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const { createClient } = require("redis");
 
 // Load environment variables from .env file
 require('dotenv').config();
@@ -8,6 +9,12 @@ require('dotenv').config();
 // Create Express server
 const app = express();
 const PORT = process.env.PORT_SERVER || 5003;
+const URL_REDIS = process.env.HOST_DB_REDIS;
+
+// Connecting to redis
+const client = createClient({
+    url: URL_REDIS // redis[s]://[[username][:password]@][host][:port][/db-number]
+});  
 
 // Connecting socker.io
 const http = require("http").Server(app);
@@ -37,7 +44,30 @@ io.on("connection", (socket) => {
 
     const myInterval = setInterval(async () => {
     
-        io.emit("datadinamic", elements);
+        let elements = {
+            data_stored: [],
+            data_total: 0,
+            cantidad_notas: {}
+        }
+
+        const arrayAllKeys = await client.keys('*');
+
+        if(arrayAllKeys.length > 0) {
+            // Stored data
+            let arrayLastKeys = arrayAllKeys.slice(-20);
+            let ds = await client.mGet(arrayLastKeys);
+            elements.data_stored = ds.map((e) => JSON.parse(e)); // retornara un null (por el array de "cantidad_notas")
+
+            // Total data
+            let dt = await client.dbSize();
+            elements.data_total= dt - 1; // -1 por el array de "cantidad_notas"
+
+            // Number of notes per course and semester 
+            elements.cantidad_notas = await client.hGetAll("cantidad_notas");
+
+            io.emit("datadinamic", elements);
+
+        }
 
     }, 3000);
 
@@ -47,6 +77,18 @@ io.on("connection", (socket) => {
     });
 
 });
+
+async function connectRedis(){
+    try {
+        await client.connect();
+        console.log("Database Redis connected");
+
+    } catch (error) {
+        console.log("Error al conectarse a Redis " + error);
+    }
+}
+
+connectRedis();
 
 // Port assignment
 const server = http.listen(PORT, () => {

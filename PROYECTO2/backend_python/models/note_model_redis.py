@@ -26,7 +26,7 @@ def insert_in_redis(r):
     res = cx.set(myuuid, data)
 
     key_increment= str(r['curso']) + str(r['semestre'])
-    cx.hincrby(key_increment,'count',1)
+    cx.hincrby("cantidad_notas",key_increment,1)
 
     # mykeys = cx.keys("*")
     # for key in mykeys:
