@@ -1,0 +1,23 @@
+
+syntax = "proto3";
+
+option go_package = "github.com/Gudiel-16/backend_go/grpc_server/proto";
+
+package proto;
+
+service Calificacion {
+  rpc InsertarCalificacion (CalificacionRequest) returns (CalificacionReply) {}
+}
+
+message CalificacionRequest {
+  string carnet = 1;
+  string nombre = 2;
+  string curso = 3;
+  string nota = 4;
+  string semestre = 5;
+  string year = 6;
+}
+
+message CalificacionReply {
+  string message = 1;
+}
