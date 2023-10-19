@@ -9,7 +9,9 @@ require('dotenv').config();
 // Create Express server
 const app = express();
 const PORT = process.env.PORT_SERVER || 5003;
-const URL_REDIS = process.env.HOST_DB_REDIS;
+const HOSTREDIS = process.env.HOST_REDIS;
+const PORTREDIS = process.env.PORT_REDIS;
+const URL_REDIS = `redis://:@${HOSTREDIS}:${PORTREDIS}`;
 
 // Connecting to redis
 const client = createClient({
@@ -69,7 +71,7 @@ io.on("connection", (socket) => {
 
         }
 
-    }, 3000);
+    }, 1500);
 
     socket.on("disconnect", () => {
         console.log("client disconnected - " + socket.id);

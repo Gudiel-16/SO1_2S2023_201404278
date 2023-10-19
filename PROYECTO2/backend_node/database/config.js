@@ -1,12 +1,12 @@
 const mysql = require('mysql2');
 
-const { USER_DB, PASSWORD_DB, DATABASE_DB, HOST_DB } = process.env;
+const { USER_MYSQL, PASS_MYSQL, NAMEDB_MYSQL, HOST_MYSQL } = process.env;
 
 const params = {
-  user: USER_DB,
-  password: PASSWORD_DB,
-  database: DATABASE_DB,
-  host: HOST_DB,
+  user: USER_MYSQL,
+  password: PASS_MYSQL,
+  database: NAMEDB_MYSQL,
+  host: HOST_MYSQL,
   multipleStatements: true,
 };
 
