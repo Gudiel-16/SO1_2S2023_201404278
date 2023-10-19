@@ -35,6 +35,12 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api', require('./routes/data_mysql.route'));
 
+app.get('/api/cleanredis', async (req, res) => {
+    const clean = await client.FLUSHDB();
+    console.log(clean);
+    res.status(200).send("Datos almacenados eliminados con éxito.");
+});
+
 app.get('/', (req, res) => {
     res.status(200).send("Hello World - NODE");
 });

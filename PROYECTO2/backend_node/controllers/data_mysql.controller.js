@@ -53,7 +53,21 @@ const students_with_the_best_average = (req, res) => {
     }
 };
 
+const clean_data = (req, res) => {
+    try {
+        getData.cleanData( (err, results) => {
+            if (err) return response(res, 400, 'Error al eliminar datos almacenados.', [err]);
+
+            response(res, 200, 'Datos almacenados eliminados con éxito.', results);
+        });
+
+    } catch (error) {
+        return response(res, 400, 'Error al eliminar datos almacenados.', [error]);
+    }
+};
+
 module.exports = { stored_data, 
     notes_course_per_semester, 
     courses_with_more_students_per_semester, 
-    students_with_the_best_average };
+    students_with_the_best_average,
+    clean_data };
