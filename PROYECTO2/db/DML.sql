@@ -107,6 +107,15 @@ BEGIN
 END //
 DELIMITER ;
 
+/*LIMPIAR DATOS*/
+DELIMITER //
+CREATE PROCEDURE EliminarDatos()
+BEGIN
+    DELETE FROM Nota WHERE idNota > 0;
+    DELETE FROM Alumno WHERE idAlumno > 0;
+END //
+DELIMITER ;
+
 /*VER VALORES DE TABLAS*/
 /*SELECT * FROM Curso;
 SELECT * FROM Semestre;
@@ -121,4 +130,5 @@ CALL DatosAlmacenados();
 CALL NotaCursoPorSemestre('SO1', '1S');
 CALL CursosAlumnosPorSemestre('1S');
 CALL AlumnosMejorPromedio();
+CALL EliminarDatos();
 */
