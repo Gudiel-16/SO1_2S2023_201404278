@@ -6,11 +6,11 @@ load_dotenv()
 
 try:
     my_db_mysql = mysql.connector.connect(
-        host=os.getenv('HOSTDB'),
-        database=os.getenv('NAMEDB'),
-        user=os.getenv('USERDB'),
-        password=os.getenv('PASSDB'),
-        port=os.getenv('PORTDB'),
+        host=os.getenv('HOST_MYSQL'),
+        database=os.getenv('NAMEDB_MYSQL'),
+        user=os.getenv('USER_MYSQL'),
+        password=os.getenv('PASS_MYSQL'),
+        port=os.getenv('PORT_MYSQL'),
         autocommit=True
     )
 except mysql.connector.Error as err:

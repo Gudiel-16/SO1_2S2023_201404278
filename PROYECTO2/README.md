@@ -63,3 +63,23 @@ Andrew,Keriann,Iolanthe,Gordy,Janeva,Harlie
     * type: **Custom List**
     * options: **2023** 
     * **random**
+
+### Puertos
+
+* Python: 5001
+
+### Name .env
+
+```
+HOST_SERVER_PYTHON=
+PORT_SERVER_PYTHON=
+
+HOST_REDIS=
+PORT_REDIS=
+
+HOST_MYSQL=
+NAMEDB_MYSQL=
+USER_MYSQL=
+PASS_MYSQL=
+PORT_MYSQL=
+```
