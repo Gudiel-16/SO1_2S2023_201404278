@@ -67,6 +67,8 @@ Andrew,Keriann,Iolanthe,Gordy,Janeva,Harlie
 ### Puertos
 
 * Python: 5001
+* gRPC-Client: 5002
+* gRPC-Server: 50051
 
 ### Name .env
 
