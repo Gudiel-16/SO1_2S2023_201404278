@@ -70,6 +70,7 @@ Andrew,Keriann,Iolanthe,Gordy,Janeva,Harlie
 * gRPC-Client: 5002
 * gRPC-Server: 50051
 * Node: 5003
+* React: 5173 - 80
 
 ### Name .env
 
