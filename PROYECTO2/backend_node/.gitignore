@@ -34,7 +34,7 @@ web_modules/
 .eslintcache
 
 # dotenv environment variables file
-#.env
+.env
 .env.test
 .env.production
 .env.development

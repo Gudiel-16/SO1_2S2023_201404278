@@ -1,7 +1,6 @@
 package Config
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -22,17 +21,17 @@ func Connect() error {
 		log.Fatalln("Error loading .env file ", errDot)
 	}
 
-	var UserDB = os.Getenv("USER_DB")
-	var PasswordDB = os.Getenv("PASSWORD_DB")
-	var NameDB = os.Getenv("DATABASE_DB")
-	var HostDB = os.Getenv("HOST_DB")
+	var UserDB = os.Getenv("USER_MYSQL")
+	var PasswordDB = os.Getenv("PASS_MYSQL")
+	var NameDB = os.Getenv("NAMEDB_MYSQL")
+	var HostDB = os.Getenv("HOST_MYSQL")
 	// var UserDB = "root"
 	// var PasswordDB = "secret"
 	// var NameDB = "db_record_of_notes"
 	// var HostDB = "172.17.0.2"
 
 	var Uri = UserDB + ":" + PasswordDB + "@tcp(" + HostDB + ")/" + NameDB + "?charset=utf8&parseTime=True&loc=Local"
-	fmt.Println(Uri)
+	// fmt.Println(Uri)
 
 	Database, err = gorm.Open(mysql.Open(Uri), &gorm.Config{
 		SkipDefaultTransaction: true,

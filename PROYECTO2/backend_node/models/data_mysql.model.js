@@ -41,4 +41,11 @@ const studentsWithTheBestAverage = (params, callback) => {
     return execute(query, data, callback);
 };
 
-module.exports = { storedData, notesCoursePerSemester, coursesWithMoreStudentsPerSemester, studentsWithTheBestAverage };
+const cleanData = (callback) => {
+
+    const query = `CALL EliminarDatos();`;
+
+    return execute2(query, callback);
+};
+
+module.exports = { storedData, notesCoursePerSemester, coursesWithMoreStudentsPerSemester, studentsWithTheBestAverage, cleanData };

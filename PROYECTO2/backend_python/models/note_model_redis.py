@@ -5,7 +5,7 @@ import uuid
 # from dotenv import load_dotenv
 # load_dotenv()
 
-cx = redis.Redis(host=os.getenv('HOSTREDIS'), port=os.getenv('PORTREDIS'))
+cx = redis.Redis(host=os.getenv('HOST_REDIS'), port=os.getenv('PORT_REDIS'))
 
 def insert_in_redis(r):
 
