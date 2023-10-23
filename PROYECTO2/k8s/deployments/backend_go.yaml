@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: deploy-go
+  namespace: so1p2
+spec:
+  selector:
+    matchLabels:
+      app: deploy-go
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: deploy-go
+    spec:
+      hostname: grpc-pod-host
+      containers:
+        - name: grpc-client
+          image: gudiel/so1-py2-grpc-client:1.0.0
+          env:
+          - name: HOST_GRPC_SERVER
+            value: grpc-pod-host
+          ports:
+            - containerPort: 5002
+        - name: grpc-server
+          image: gudiel/so1-py2-grpc-server:1.0.0
+          ports:
+            - containerPort: 50051

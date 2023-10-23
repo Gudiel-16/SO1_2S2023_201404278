@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: deploy-node
+  namespace: so1p2
+spec:
+  selector:
+    matchLabels:
+      app: deploy-node
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: deploy-node
+    spec:
+      containers:
+      - name: backend-node
+        image: gudiel/so1-py2-node:1.0.0
+        resources:
+          requests:
+            cpu: "250m"
+        ports:
+        - containerPort: 5003
+        env:
+        - name: HOST_REDIS
+          valueFrom:
+            secretKeyRef:
+              name: secret-env
+              key: HOST_REDIS
+        - name: PORT_REDIS
+          valueFrom:
+            secretKeyRef:
+              name: secret-env
+              key: PORT_REDIS
+        - name: HOST_MYSQL
+          valueFrom:
+            secretKeyRef:
+              name: secret-env
+              key: HOST_MYSQL
+        - name: NAMEDB_MYSQL
+          valueFrom:
+            secretKeyRef:
+              name: secret-env
+              key: NAMEDB_MYSQL
+        - name: USER_MYSQL
+          valueFrom:
+            secretKeyRef:
+              name: secret-env
+              key: USER_MYSQL
+        - name: PASS_MYSQL
+          valueFrom:
+            secretKeyRef:
+              name: secret-env
+              key: PASS_MYSQL
+        - name: PORT_MYSQL
+          valueFrom:
+            secretKeyRef:
+              name: secret-env
+              key: PORT_MYSQL
+      
