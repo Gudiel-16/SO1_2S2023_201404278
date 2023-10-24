@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-go
+spec:
+  ports:
+  - name: go-port
+    port: 5002
+    targetPort: 5002
+  selector:
+      app: deploy-go
+  type: LoadBalancer
