@@ -20,6 +20,9 @@ spec:
       containers:
       - name: db-redis
         image: redis:7.2
+        resources:
+          requests:
+            cpu: "250m"
         ports:
         - containerPort: 6379
         volumeMounts:
