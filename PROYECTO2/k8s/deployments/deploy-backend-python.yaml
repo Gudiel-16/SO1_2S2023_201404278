@@ -27,15 +27,9 @@ spec:
         - name: PORT_SERVER_PYTHON
             value: 5001
         - name: HOST_REDIS
-          valueFrom:
-            secretKeyRef:
-              name: secret-env
-              key: HOST_REDIS
+            value: service-redis
         - name: PORT_REDIS
-          valueFrom:
-            secretKeyRef:
-              name: secret-env
-              key: PORT_REDIS
+            value: 6379
         - name: HOST_MYSQL
           valueFrom:
             secretKeyRef:
@@ -57,8 +51,5 @@ spec:
               name: secret-env
               key: PASS_MYSQL
         - name: PORT_MYSQL
-          valueFrom:
-            secretKeyRef:
-              name: secret-env
-              key: PORT_MYSQL
+            value: 3306
       
