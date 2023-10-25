@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-python
+  namespace: so1p2
+spec:
+  ports:
+  - name: python-port
+    port: 5001
+    targetPort: 5001
+  selector:
+      app: deploy-python
+  type: LoadBalancer

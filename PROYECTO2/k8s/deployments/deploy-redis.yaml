@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-redis
+  namespace: so1p2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-redis
+  template:
+    metadata:
+      labels:
+        app: db-redis
+    spec:
+      volumes:
+      - name: db-redis-data
+        persistentVolumeClaim:
+          claimName: db-redis-pvc
+      containers:
+      - name: db-redis
+        image: redis:7.2
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: db-redis-data
+          mountPath: /data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-redis-pvc
+  namespace: so1p2
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
