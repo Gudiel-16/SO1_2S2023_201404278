@@ -23,9 +23,9 @@ spec:
         - containerPort: 5003
         env:
         - name: HOST_REDIS
-            value: service-redis
+          value: service-redis
         - name: PORT_REDIS
-            value: 6379
+          value: '6379'
         - name: HOST_MYSQL
           valueFrom:
             secretKeyRef:
@@ -47,5 +47,5 @@ spec:
               name: secret-env
               key: PASS_MYSQL
         - name: PORT_MYSQL
-            value: 3306
+          value: '3306'
       
