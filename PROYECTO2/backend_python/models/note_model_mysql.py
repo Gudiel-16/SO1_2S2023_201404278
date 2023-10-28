@@ -1,24 +1,37 @@
-from database.config_mysql import my_db_mysql
+from database.config_mysql import config_db
+import mysql.connector
 
 def insert_in_mysql(r):
 
-    carnet = r['carnet']
-    nombre = r['nombre']
-    curso = r['curso']
-    nota = r['nota']
-    semestre = r['semestre']
-    year = r['year']
+    try:
 
-    mycursor = my_db_mysql.cursor()
+        my_db_mysql = mysql.connector.connect(**config_db)
 
-    query = ("CALL InsertarNota(%s, %s, %s, %s, %s, %s)")
-    values = (carnet, nombre, curso, nota, semestre, year)
+        carnet = r['carnet']
+        nombre = r['nombre']
+        curso = r['curso']
+        nota = r['nota']
+        semestre = r['semestre']
+        year = r['year']
 
-    mycursor.execute(query, values)
-    my_db_mysql.commit()
+        mycursor = my_db_mysql.cursor()
 
-    if mycursor.rowcount > 0:
-        return True
-    else:
-        return False
+        query = ("CALL InsertarNota(%s, %s, %s, %s, %s, %s)")
+        values = (carnet, nombre, curso, nota, semestre, year)
 
+        mycursor.execute(query, values)
+        my_db_mysql.commit()
+
+
+        if mycursor.rowcount > 0:
+            mycursor.close()
+            my_db_mysql.close()
+            return True
+        else:
+            mycursor.close()
+            my_db_mysql.close()
+            return False
+
+    except mysql.connector.Error as err:
+        my_db_mysql = -1
+        print("Error connecting to MySQL!: {}".format(err))
