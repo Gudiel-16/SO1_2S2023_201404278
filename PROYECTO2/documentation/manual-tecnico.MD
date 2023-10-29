@@ -166,6 +166,17 @@ kubectl get services -n nginx-ingress
 kubectl apply -f ingress/ingress.yaml
 ```
 
+#### Ver objetos creados
+
+```bash
+kubectl get ns
+kubectl get secret -n so1p2
+
+kubectl get pods -n so1p2
+kubectl get pvc -n so1p2
+
+```
+
 #### Acceder a CLI de redis
 
 ```bash
@@ -209,17 +220,21 @@ HGETALL cantidad_notas
 * Create
 * Switch to standard
     * Nombre de cluster
-* Grupo de nodo
-    * 4 nodos
+* Grupo de nodo (default)
+    * 3 nodos
     * 2cpu, 1 nucleo, 4RAM (cada nodo)
-    * 40 GB
-* Crear (187$/mes aprox.)
+    * 30 GB
+* Grupo de nodo (por redis)
+    * 1 nodo
+    * 4cpu, 2 nucleos, 16RAM
+* Crear (256$/mes aprox.)
 
 #### Acceder al cluster
 
 * Abrir consola de GCP
 * Open editor
-* Clonar proyecto o copiar archivos
+* Ejecutar comando `pwd` para saber ruta de carpeta, tiene que ser algo como: `/home/g16_pweb`
+* Clonar proyecto o copiar archivos en nuestro espacio de trabajo (carpeta anterior de preferencia).
 * Entrar al cluster creado
 * Connect
 * Copiar URL y conectarnos desde consola del editor
