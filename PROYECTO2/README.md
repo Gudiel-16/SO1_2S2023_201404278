@@ -2,4 +2,4 @@
 
 [Ver manual Tecnico](./documentation/manual-tecnico.MD)
 
-[Ver manual Tecnico](./documentation/manual-usuario.MD)
+[Ver manual de Usuario](./documentation/manual-usuario.MD)

@@ -222,10 +222,9 @@ HGETALL cantidad_notas
 * Clonar proyecto o copiar archivos
 * Entrar al cluster creado
 * Connect
-* Copiar URL y conectarnos desde el editor
+* Copiar URL y conectarnos desde consola del editor
 * Damos autorización
-* Ya podemos interactuar con el cluster con kubectl.
-
+* Ya podemos interactuar con el cluster con kubectl
 
 ## CLOUD RUN
 
