@@ -6,7 +6,7 @@ metadata:
 spec:
   ports:
   - name: go-port
-    port: 5002
+    port: 5016
     targetPort: 5002
   selector:
       app: deploy-go

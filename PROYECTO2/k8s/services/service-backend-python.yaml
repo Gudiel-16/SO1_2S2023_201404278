@@ -6,7 +6,7 @@ metadata:
 spec:
   ports:
   - name: python-port
-    port: 5001
+    port: 5016
     targetPort: 5001
   selector:
       app: deploy-python

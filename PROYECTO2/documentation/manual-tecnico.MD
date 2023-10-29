@@ -72,6 +72,7 @@ Andrew,Keriann,Iolanthe,Gordy,Janeva,Harlie
 * gRPC-Server: 50051
 * Node: 5003
 * React: 5173 - 80
+* Python y Go para Ingress: 5016
 
 ## Variables de entorno
 
