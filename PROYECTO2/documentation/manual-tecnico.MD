@@ -173,6 +173,8 @@ kubectl get ns
 kubectl get secret -n so1p2
 
 kubectl get pods -n so1p2
+kubectl get services -n so1p2
+
 kubectl get pvc -n so1p2
 
 ```
