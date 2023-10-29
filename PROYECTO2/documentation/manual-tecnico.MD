@@ -199,8 +199,37 @@ HGETALL cantidad_notas
 #### Nodeport
 - `kubectl port-forward service/<service-name> <local-port>:<service-port> -n <nombre_namespace>`
 
+## CLUSTER
+
+#### Crear cluster
+
+* Menú
+* Kubernetes engine API
+* Habilitar
+* Create
+* Switch to standard
+    * Nombre de cluster
+* Grupo de nodo
+    * 4 nodos
+    * 2cpu, 1 nucleo, 4RAM (cada nodo)
+    * 40 GB
+* Crear (187$/mes aprox.)
+
+#### Acceder al cluster
+
+* Abrir consola de GCP
+* Open editor
+* Clonar proyecto o copiar archivos
+* Entrar al cluster creado
+* Connect
+* Copiar URL y conectarnos desde el editor
+* Damos autorización
+* Ya podemos interactuar con el cluster con kubectl.
+
 
 ## CLOUD RUN
+
+#### Container Registry
 
 * Ir a Menu
 * Container Registry
@@ -221,6 +250,8 @@ docker push gcr.io/<name-project>/so1-py2-front:v1
 ```
 gcloud auth configure-docker
 ```
+
+#### Cloud Run
 
 * Ir a Menu
 * Cloud Run
