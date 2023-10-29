@@ -288,3 +288,8 @@ gcloud auth configure-docker
     * Poner puerto
     * variable de entorno
 * Crear
+
+#### Bugs
+
+* Muestra en la consola: `Se ha bloqueado la carga del contenido activo mixto`.
+* Solucion: click en el candado, conexion segura y desactivar proteccion por ahora.
