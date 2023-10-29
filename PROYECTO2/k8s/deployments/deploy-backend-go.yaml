@@ -19,7 +19,7 @@ spec:
           image: gudiel/so1-py2-grpc-client:1.0.0
           resources:
             requests:
-              cpu: "400m"
+              cpu: "500m"
           env:
           - name: HOST_GRPC_SERVER
             value: grpc-pod-host
@@ -29,7 +29,7 @@ spec:
           image: gudiel/so1-py2-grpc-server:1.0.0
           resources:
             requests:
-              cpu: "400m"
+              cpu: "500m"
           env:
           - name: HOST_MYSQL
             valueFrom:

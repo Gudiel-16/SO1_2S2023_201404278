@@ -18,7 +18,7 @@ spec:
         image: gudiel/so1-py2-python:1.0.0
         resources:
           requests:
-            cpu: "400m"
+            cpu: "500m"
         ports:
         - containerPort: 5001
         env:
