@@ -22,7 +22,7 @@ spec:
         image: redis:7.2
         resources:
           requests:
-            cpu: "800m"
+            cpu: "1000m"
         ports:
         - containerPort: 6379
         volumeMounts:
