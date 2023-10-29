@@ -223,13 +223,13 @@ HGETALL cantidad_notas
 * Switch to standard
     * Nombre de cluster
 * Grupo de nodo (default)
-    * 3 nodos
-    * 2cpu, 1 nucleo, 4RAM (cada nodo)
+    * 4 nodos
+    * 1-2cpu, 1 nucleo, 4RAM (cada nodo)
     * 30 GB
 * Grupo de nodo (por redis)
     * 1 nodo
-    * 4cpu, 2 nucleos, 16RAM
-* Crear (256$/mes aprox.)
+    * 4cpu, 2 nucleos, 4RAM
+* Crear (258$/mes aprox.)
 
 #### Acceder al cluster
 
