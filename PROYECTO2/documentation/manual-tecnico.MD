@@ -65,6 +65,38 @@ Andrew,Keriann,Iolanthe,Gordy,Janeva,Harlie
     * options: **2023** 
     * **random**
 
+## SQL
+
+* Menu
+* SQL
+* Create Instance
+* MySQL
+* Instance ID: Nombre
+* Password: Se puede generar 1
+* Choose a Cloud SQL edition
+	* Enterprise
+* Choose a preset for this edition
+	* Developtment o Sandbox
+* Us-central1 (lowa)
+* Connection
+	* Public IP
+	* New network
+		* `all`
+		* `0.0.0.0/0`
+* Create instance
+* Entrar a la db
+* Panel izquierdo
+* Overview
+    * ip de la db
+* Users
+    * root por default, se puede cambiar el password tambien
+
+## Entidad Relacion
+
+![ER](../db/ER-SO1-P2.png)
+
+[Ver scrips sql](../db/)
+
 ## Puertos apps
 
 * Python: 5001
@@ -166,3 +198,44 @@ HGETALL cantidad_notas
 
 #### Nodeport
 - `kubectl port-forward service/<service-name> <local-port>:<service-port> -n <nombre_namespace>`
+
+
+## CLOUD RUN
+
+* Ir a Menu
+* Container Registry
+* Habilitar
+* Tener la imagen en docker hub
+* Abrir consola de gcp
+* Abrir editor
+* Seleccionar carpeta de trabajo de nuestro usuario en el editor
+
+```
+docker pull gudiel/so1-py2-front:1.0.0
+docker tag gudiel/so1-py2-front:1.0.0 gcr.io/<name-project>/so1-py2-front:v1
+docker push gcr.io/<name-project>/so1-py2-front:v1
+```
+
+* Si no hace el push dar como permisos:
+
+```
+gcloud auth configure-docker
+```
+
+* Ir a Menu
+* Cloud Run
+* Hablitar
+* Crear servicio
+* Implementar una revision desde una imagen de contenedor
+* Seleccionar imagen creada
+* Nombre de servicio
+* Región
+* Escala automatico
+0-5 (si pones 0-5 puede que tarde un poquito en mostrar ya que levanta la instancia en el momento)
+* Permitir todo el trafico
+* Permitir invocaciones sin autenticar
+* Contenedores, variables y secretos, conexiones, seguridad
+    * Memoria y CPU
+    * Poner puerto
+    * variable de entorno
+* Crear
