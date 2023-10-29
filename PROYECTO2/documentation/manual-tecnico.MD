@@ -176,7 +176,7 @@ kubectl get pods -n so1p2
 kubectl get services -n so1p2
 
 kubectl get pvc -n so1p2
-
+kubectl get hpa -n so1p2
 ```
 
 #### Acceder a CLI de redis
