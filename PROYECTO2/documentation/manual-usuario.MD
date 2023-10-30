@@ -20,4 +20,9 @@
 
 ## Parte Dinamica
 
+* Muestra el reporte de cantidad de notas en semestre especifico.
+* Se pueden seleccionar los parametros para visualizarlos en el reporte.
+* Muestra la cantidad de datos almacenados en la db.
+* Muestra los datos almacenados en una tabla.
 
+![Estatica1](./img/parte-dinamica.png)
