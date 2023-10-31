@@ -6,8 +6,8 @@ from routes.note_route import route_note
 
 load_dotenv()
 
-HOST = os.getenv('HOST')
-PORT = os.getenv('PORT')
+HOST = os.getenv('HOST_SERVER_PYTHON')
+PORT = os.getenv('PORT_SERVER_PYTHON')
 
 app = Flask(__name__)
 CORS(app)

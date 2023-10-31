@@ -35,7 +35,7 @@ def insert_note():
         print(inst)
         response = make_response(
                 jsonify(
-                    {"status": "500", "msg": "Error en el servidor python al registrar nota", "data": []}
+                    {"status": "400", "msg": "Error en el servidor python al registrar nota", "data": []}
                 ),
                 400,
             )

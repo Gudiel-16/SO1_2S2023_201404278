@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-go
+  namespace: so1p2
+spec:
+  ports:
+  - name: go-port
+    port: 5016
+    targetPort: 5002
+  selector:
+      app: deploy-go
+  type: LoadBalancer

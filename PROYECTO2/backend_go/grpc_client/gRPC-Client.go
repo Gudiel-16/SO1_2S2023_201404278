@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/Gudiel-16/backend_go/grpc_client/Entities"
@@ -20,10 +21,10 @@ import (
 // 	defaultName = "world"
 // )
 
-var (
-	addr = flag.String("addr", "localhost:50051", "the address to connect to")
-	// name = flag.String("name", defaultName, "Name to greet")
-)
+// var (
+// 	addr = flag.String("addr", "localhost:50051", "the address to connect to")
+// 	// name = flag.String("name", defaultName, "Name to greet")
+// )
 
 func helloWorld(c *fiber.Ctx) error {
 
@@ -32,6 +33,12 @@ func helloWorld(c *fiber.Ctx) error {
 }
 
 func logicaClient(cfi *fiber.Ctx) error {
+
+	host_grpc_server := os.Getenv("HOST_GRPC_SERVER")
+
+	if host_grpc_server == "" {
+		host_grpc_server = "localhost"
+	}
 
 	newNota := Entities.Nota{}
 	errf := cfi.BodyParser(&newNota)
@@ -42,7 +49,7 @@ func logicaClient(cfi *fiber.Ctx) error {
 
 	flag.Parse()
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(host_grpc_server+":50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}

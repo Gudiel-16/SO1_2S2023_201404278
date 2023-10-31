@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-redis
+  namespace: so1p2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-redis
+  template:
+    metadata:
+      labels:
+        app: db-redis
+    spec:
+      containers:
+      - name: db-redis
+        image: redis:7.2
+        resources:
+          requests:
+            cpu: "800m"
+        ports:
+        - containerPort: 6379

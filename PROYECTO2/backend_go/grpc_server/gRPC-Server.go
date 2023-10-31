@@ -24,12 +24,12 @@ type server struct {
 // SayHello implements helloworld.GreeterServer
 func (s *server) InsertarCalificacion(ctx context.Context, in *pb.CalificacionRequest) (*pb.CalificacionReply, error) {
 
-	fmt.Println(in.GetCarnet())
-	fmt.Println(in.GetNombre())
-	fmt.Println(in.GetCurso())
-	fmt.Println(in.GetNota())
-	fmt.Println(in.GetSemestre())
-	fmt.Println(in.GetYear())
+	// fmt.Println(in.GetCarnet())
+	// fmt.Println(in.GetNombre())
+	// fmt.Println(in.GetCurso())
+	// fmt.Println(in.GetNota())
+	// fmt.Println(in.GetSemestre())
+	// fmt.Println(in.GetYear())
 
 	Config.Database.Exec("CALL InsertarNota(?,?,?,?,?,?)", in.GetCarnet(), in.GetNombre(), in.GetCurso(), in.GetNota(), in.GetSemestre(), in.GetYear())
 	// Config.Database.Exec("INSERT IGNORE INTO Alumno(carnet, nombre, year) VALUES(?, ?, ?)", in.GetCarnet(), in.GetNombre(), in.GetYear())
