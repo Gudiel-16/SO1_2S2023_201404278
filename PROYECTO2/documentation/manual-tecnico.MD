@@ -65,7 +65,75 @@ Andrew,Keriann,Iolanthe,Gordy,Janeva,Harlie
     * options: **2023** 
     * **random**
 
-## SQL
+## MySQL Local
+
+* Instalacion
+
+```bash
+docker pull mysql
+```
+
+* Levantar contenedor, con password y volumen
+
+```bash
+docker run -d -p 33061:3306 --name DBMYSQL -e MYSQL_ROOT_PASSWORD=secret -v mysql-data:/var/lib/mysql mysql
+```
+
+* Detener o iniciar contenedor
+
+```bash
+docker stop id_container
+docker start id_container
+```
+
+## Redis Local
+
+* Instalacion:
+
+```bash
+docker pull redis
+# opcion1
+docker run --name some-redis -d redis
+# opcion2
+docker run --name some-redis -p 6379:3379 -d redis
+```
+
+* Levantar contenedor:
+
+```bash
+docker start some-redis
+```
+
+#### Redis commander (Visualizar datos de Redis)
+
+* Instalacion:
+
+```bash
+docker pull rediscommander/redis-commander
+```
+
+* Levantar contenedor:
+    * http://localhost:8081
+
+```bash
+# ip (172.17.0.3) es del contenedor de redis (run)
+docker run --rm --name redis-commander -d --env REDIS_HOSTS=local:172.17.0.3:6379 -p 8081:8081 rediscommander/redis-commander:latest
+```
+
+## Backend
+
+* Ver instalaciones necesarias de cada backend.
+* Pasos para levantar toda la app local con docker o ir probando por partes.
+
+    * [Backend Golang](../backend_go/)
+
+    * [Backend Node](../backend_node/)
+
+    * [Backend Python](../backend_python/)
+
+## CLOUD SQL
+
+#### Creando instancia
 
 * Menu
 * SQL
@@ -245,9 +313,7 @@ HGETALL cantidad_notas
 * Damos autorización
 * Ya podemos interactuar con el cluster con kubectl
 
-## CLOUD RUN
-
-#### Container Registry
+## Container Registry
 
 * Ir a Menu
 * Container Registry
@@ -269,8 +335,9 @@ docker push gcr.io/<name-project>/so1-py2-front:v1
 gcloud auth configure-docker
 ```
 
-#### Cloud Run
+## Cloud Run
 
+* Tener la imagen a utilizar en Container Registry.
 * Ir a Menu
 * Cloud Run
 * Hablitar

@@ -1,4 +1,4 @@
-# Backend Node
+# Node
 
 ```
 npm install
@@ -16,6 +16,7 @@ sudo docker build -t gudiel/so1-py2-node:1.0.0 .
 * Run:
     * Las credenciales son de dbs local.
     * 172.17.0.2 es la IP del contenedor de MySQL y 172.17.0.3 es la IP del contenedor de redis.
+    * Realizar un `docker inspect` para visualizar las ip de cada contenedor, ya que pueden variar.
 
 ```
 sudo docker run --rm -it -p 5003:5003 -d \
